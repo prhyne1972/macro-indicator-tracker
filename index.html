@@ -517,20 +517,9 @@ function getStatus(short, relDate) {
   return 'skip';
 }
 
-// ── Safe HTML setter (Trusted Types compatible) ──────────────────
+// ── Safe HTML setter ─────────────────────────────────────────────
 
 function safeSetHTML(el, html) {
-  if (window.trustedTypes && window.trustedTypes.createPolicy) {
-    try {
-      const policy = window.trustedTypes.createPolicy('macro-tracker', {
-        createHTML: (s) => s
-      });
-      el.innerHTML = policy.createHTML(html);
-      return;
-    } catch (e) {
-      // Policy already exists — fall through
-    }
-  }
   el.innerHTML = html;
 }
 
@@ -624,4 +613,11 @@ function updateCounts() {
   const lookback = addDays(t, -60);
   let av = 0, up = 0, us = 0;
   for (const ind of INDICATORS) {
-    for (const rel of ind.r
+    for (const rel of ind.releases) {
+      const st = getStatus(ind.short, rel.date);
+      if (st === 'available') av++;
+      if (st === 'upcoming' && rel.date <= horizon) up++;
+      if (st === 'used' && rel.date >= lookback) us++;
+    }
+  }
+  document.getElementById('cnt-available').textCon
