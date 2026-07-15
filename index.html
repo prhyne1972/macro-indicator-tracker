@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Macro Indicator Tracker",
+  "schemaVersion": 1,
+  "description": "Macro indicator tracker for the Weekly Insights Blog. Reads Macro Calendar.xlsx from OneDrive to show which released indicators are available to use vs. already used, plus a 35-day upcoming release calendar. Official 2026 release dates embedded from BLS, BEA, Census, Federal Reserve, Conference Board, U-Mich, ISM, NY Fed, and Philly Fed.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,6 +23,7 @@
       min-height: 100vh;
     }
 
+    /* ── Header ── */
     .header {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       color: white;
@@ -37,6 +46,7 @@
     }
     .refresh-btn:hover { background: rgba(255,255,255,0.22); }
 
+    /* ── Tabs ── */
     .tabs {
       display: flex;
       background: white;
@@ -52,7 +62,11 @@
     }
     .tab:hover { background: #f8fafc; }
     .tab.active { border-bottom-color: #3b82f6; }
-    .tab-num { font-size: 20px; font-weight: 700; line-height: 1; }
+    .tab-num {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
     .tab-num.green { color: #16a34a; }
     .tab-num.blue  { color: #2563eb; }
     .tab-num.gray  { color: #64748b; }
@@ -65,6 +79,7 @@
       font-weight: 700;
     }
 
+    /* ── Content ── */
     .content { padding: 14px 14px 24px; }
 
     .week-label {
@@ -77,6 +92,7 @@
     }
     .week-label:first-child { padding-top: 0; }
 
+    /* ── Cards ── */
     .card {
       display: flex;
       align-items: center;
@@ -85,13 +101,17 @@
       border-radius: 10px;
       margin-bottom: 7px;
       border: 1.5px solid #e2e8f0;
+    }
+    .card.c-available  { border-color: #86efac; background: #f0fdf4; }
+    .card.c-used       { border-color: #e2e8f0; background: #fafafa; opacity: 0.8; }
+    .card.c-soon       { border-color: #fde68a; background: #fffbeb; }
+    .card.c-upcoming   { border-color: #bfdbfe; background: #eff6ff; }
+
+    a.card {
       text-decoration: none;
       color: inherit;
+      cursor: pointer;
     }
-    .card.c-available { border-color: #86efac; background: #f0fdf4; }
-    .card.c-used      { border-color: #e2e8f0; background: #fafafa; opacity: 0.8; }
-    .card.c-soon      { border-color: #fde68a; background: #fffbeb; }
-    .card.c-upcoming  { border-color: #bfdbfe; background: #eff6ff; }
     a.card:hover { filter: brightness(0.97); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 
     .card-icon { font-size: 17px; margin-right: 9px; flex-shrink: 0; }
@@ -122,6 +142,7 @@
     .b-soon      { background: #fef3c7; color: #b45309; }
     .b-upcoming  { background: #dbeafe; color: #1d4ed8; }
 
+    /* ── Loading ── */
     .loading-screen {
       display: flex;
       flex-direction: column;
@@ -140,13 +161,25 @@
       margin-bottom: 12px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .load-step { font-size: 11px; color: #94a3b8; margin-top: 5px; }
 
+    /* ── Misc ── */
     .empty {
       text-align: center;
       padding: 32px 16px;
       color: #94a3b8;
       font-size: 13px;
       line-height: 1.6;
+    }
+    .warn-banner {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 9px 13px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: #9a3412;
+      line-height: 1.5;
     }
     .footer {
       padding: 10px 14px 14px;
@@ -162,24 +195,24 @@
 <div class="header">
   <div class="header-row">
     <div>
-      <h1>&#128202; Macro Indicator Tracker</h1>
-      <div class="header-sub">Weekly Insights Blog &mdash; Release Calendar &amp; Usage</div>
+      <h1>📊 Macro Indicator Tracker</h1>
+      <div class="header-sub">Weekly Insights Blog — Release Calendar &amp; Usage</div>
     </div>
-    <button class="refresh-btn" id="refresh-btn">&#8635; Refresh</button>
+    <button class="refresh-btn" id="refresh-btn">↻ Refresh</button>
   </div>
 </div>
 
 <div id="tabs-el" class="tabs" style="display:none">
   <div class="tab active" id="tab-available" data-tab="available">
-    <div class="tab-num green" id="cnt-available">-</div>
+    <div class="tab-num green" id="cnt-available">–</div>
     <div class="tab-label">Available</div>
   </div>
   <div class="tab" id="tab-upcoming" data-tab="upcoming">
-    <div class="tab-num blue" id="cnt-upcoming">-</div>
+    <div class="tab-num blue" id="cnt-upcoming">–</div>
     <div class="tab-label">Upcoming</div>
   </div>
   <div class="tab" id="tab-used" data-tab="used">
-    <div class="tab-num gray" id="cnt-used">-</div>
+    <div class="tab-num gray" id="cnt-used">–</div>
     <div class="tab-label">Used</div>
   </div>
 </div>
@@ -187,19 +220,24 @@
 <div id="content" class="content">
   <div class="loading-screen">
     <div class="spinner"></div>
-    <div>Loading indicator schedule...</div>
+    <div>Loading indicator schedule…</div>
   </div>
 </div>
 
 <div class="footer">
-  BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
+  BLS · BEA · Census Bureau · Federal Reserve · Conference Board · U-Mich · ISM · NY Fed · Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Jun 24, 2026</strong> (6 posts analyzed).
+  Last checked: <strong>Jul 10, 2026</strong> (8 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 
 <script>
-var INDICATORS = [
-  { name: "BLS Jobs Report", short: "jobs", source: "BLS", icon: "Jobs",
+// ════════════════════════════════════════════════════════════════
+// OFFICIAL 2026 RELEASE SCHEDULE — verified June 24, 2026
+// Sources: agency websites (BLS, BEA, Census, Fed, CB, UMICH, ISM)
+// ════════════════════════════════════════════════════════════════
+const INDICATORS = [
+  {
+    name: "BLS Jobs Report", short: "jobs", source: "BLS", icon: "👷",
     url: "https://www.bls.gov/news.release/empsit.nr0.htm",
     releases: [
       { date: "2026-06-05", period: "May 2026" },
@@ -208,10 +246,11 @@ var INDICATORS = [
       { date: "2026-09-04", period: "Aug 2026" },
       { date: "2026-10-02", period: "Sep 2026" },
       { date: "2026-11-06", period: "Oct 2026" },
-      { date: "2026-12-04", period: "Nov 2026" }
+      { date: "2026-12-04", period: "Nov 2026" },
     ]
   },
-  { name: "CPI", short: "cpi", source: "BLS", icon: "CPI",
+  {
+    name: "CPI", short: "cpi", source: "BLS", icon: "🛒",
     url: "https://www.bls.gov/news.release/cpi.nr0.htm",
     releases: [
       { date: "2026-06-10", period: "May 2026" },
@@ -220,10 +259,11 @@ var INDICATORS = [
       { date: "2026-09-11", period: "Aug 2026" },
       { date: "2026-10-14", period: "Sep 2026" },
       { date: "2026-11-10", period: "Oct 2026" },
-      { date: "2026-12-10", period: "Nov 2026" }
+      { date: "2026-12-10", period: "Nov 2026" },
     ]
   },
-  { name: "PPI", short: "ppi", source: "BLS", icon: "PPI",
+  {
+    name: "PPI", short: "ppi", source: "BLS", icon: "🏭",
     url: "https://www.bls.gov/news.release/ppi.nr0.htm",
     releases: [
       { date: "2026-05-14", period: "Apr 2026" },
@@ -233,10 +273,11 @@ var INDICATORS = [
       { date: "2026-09-10", period: "Aug 2026" },
       { date: "2026-10-15", period: "Sep 2026" },
       { date: "2026-11-13", period: "Oct 2026" },
-      { date: "2026-12-15", period: "Nov 2026" }
+      { date: "2026-12-15", period: "Nov 2026" },
     ]
   },
-  { name: "Consumer Confidence", short: "consconf", source: "Conference Board", icon: "CC",
+  {
+    name: "Consumer Confidence", short: "consconf", source: "Conference Board", icon: "😊",
     url: "https://www.conference-board.org/topics/consumer-confidence",
     releases: [
       { date: "2026-05-27", period: "May 2026" },
@@ -246,10 +287,11 @@ var INDICATORS = [
       { date: "2026-09-29", period: "September 2026" },
       { date: "2026-10-27", period: "October 2026" },
       { date: "2026-11-24", period: "November 2026" },
-      { date: "2026-12-29", period: "December 2026" }
+      { date: "2026-12-29", period: "December 2026" },
     ]
   },
-  { name: "Consumer Sentiment", short: "conssentiment", source: "U-Mich", icon: "CS",
+  {
+    name: "Consumer Sentiment", short: "conssentiment", source: "U-Mich", icon: "📈",
     url: "https://www.sca.isr.umich.edu/",
     releases: [
       { date: "2026-05-15", period: "May 2026 (Prelim)" },
@@ -259,10 +301,11 @@ var INDICATORS = [
       { date: "2026-09-25", period: "September 2026 (Final)" },
       { date: "2026-10-23", period: "October 2026 (Final)" },
       { date: "2026-11-20", period: "November 2026 (Final)" },
-      { date: "2026-12-18", period: "December 2026 (Final)" }
+      { date: "2026-12-18", period: "December 2026 (Final)" },
     ]
   },
-  { name: "Retail Sales", short: "retail", source: "Census Bureau", icon: "RS",
+  {
+    name: "Retail Sales", short: "retail", source: "Census Bureau", icon: "🏪",
     url: "https://www.census.gov/retail/sales.html",
     releases: [
       { date: "2026-05-15", period: "Apr 2026" },
@@ -272,10 +315,11 @@ var INDICATORS = [
       { date: "2026-09-16", period: "Aug 2026" },
       { date: "2026-10-15", period: "Sep 2026" },
       { date: "2026-11-17", period: "Oct 2026" },
-      { date: "2026-12-16", period: "Nov 2026" }
+      { date: "2026-12-16", period: "Nov 2026" },
     ]
   },
-  { name: "Industrial Production", short: "indprod", source: "Federal Reserve", icon: "IP",
+  {
+    name: "Industrial Production", short: "indprod", source: "Federal Reserve", icon: "⚙️",
     url: "https://www.federalreserve.gov/releases/g17/current/default.htm",
     releases: [
       { date: "2026-05-15", period: "Apr 2026" },
@@ -285,10 +329,11 @@ var INDICATORS = [
       { date: "2026-09-18", period: "Aug 2026" },
       { date: "2026-10-16", period: "Sep 2026" },
       { date: "2026-11-17", period: "Oct 2026" },
-      { date: "2026-12-16", period: "Nov 2026" }
+      { date: "2026-12-16", period: "Nov 2026" },
     ]
   },
-  { name: "New Housing Construction", short: "housing", source: "Census Bureau", icon: "HC",
+  {
+    name: "New Housing Construction", short: "housing", source: "Census Bureau", icon: "🏠",
     url: "https://www.census.gov/construction/nrc/current/index.html",
     releases: [
       { date: "2026-05-20", period: "Apr 2026" },
@@ -298,10 +343,11 @@ var INDICATORS = [
       { date: "2026-09-17", period: "Aug 2026" },
       { date: "2026-10-20", period: "Sep 2026" },
       { date: "2026-11-18", period: "Oct 2026" },
-      { date: "2026-12-17", period: "Nov 2026" }
+      { date: "2026-12-17", period: "Nov 2026" },
     ]
   },
-  { name: "PCE", short: "pce", source: "BEA", icon: "PCE",
+  {
+    name: "PCE", short: "pce", source: "BEA", icon: "💳",
     url: "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
     releases: [
       { date: "2026-05-29", period: "Apr 2026" },
@@ -311,10 +357,11 @@ var INDICATORS = [
       { date: "2026-09-30", period: "Aug 2026" },
       { date: "2026-10-29", period: "Sep 2026" },
       { date: "2026-11-25", period: "Oct 2026" },
-      { date: "2026-12-23", period: "Nov 2026" }
+      { date: "2026-12-23", period: "Nov 2026" },
     ]
   },
-  { name: "GDP", short: "gdp", source: "BEA", icon: "GDP",
+  {
+    name: "GDP", short: "gdp", source: "BEA", icon: "📊",
     url: "https://www.bea.gov/data/gdp/gross-domestic-product",
     releases: [
       { date: "2026-05-28", period: "Q4 2025 (3rd est.)" },
@@ -324,10 +371,11 @@ var INDICATORS = [
       { date: "2026-09-30", period: "Q2 2026 (3rd est.)" },
       { date: "2026-10-29", period: "Q3 2026 (Advance)" },
       { date: "2026-11-25", period: "Q3 2026 (2nd est.)" },
-      { date: "2026-12-23", period: "Q3 2026 (3rd est.)" }
+      { date: "2026-12-23", period: "Q3 2026 (3rd est.)" },
     ]
   },
-  { name: "Durable Goods", short: "durable", source: "Census Bureau", icon: "DG",
+  {
+    name: "Durable Goods", short: "durable", source: "Census Bureau", icon: "🔧",
     url: "https://www.census.gov/manufacturing/m3/adv/current/index.html",
     releases: [
       { date: "2026-05-27", period: "Apr 2026" },
@@ -337,10 +385,11 @@ var INDICATORS = [
       { date: "2026-09-25", period: "Aug 2026" },
       { date: "2026-10-27", period: "Sep 2026" },
       { date: "2026-11-25", period: "Oct 2026" },
-      { date: "2026-12-23", period: "Nov 2026" }
+      { date: "2026-12-23", period: "Nov 2026" },
     ]
   },
-  { name: "Empire State Mfg", short: "empire", source: "NY Fed", icon: "ESM",
+  {
+    name: "Empire State Mfg", short: "empire", source: "NY Fed", icon: "🗽",
     url: "https://www.newyorkfed.org/survey/empire/empiresurvey_overview",
     releases: [
       { date: "2026-05-11", period: "May 2026" },
@@ -350,10 +399,11 @@ var INDICATORS = [
       { date: "2026-09-15", period: "September 2026" },
       { date: "2026-10-15", period: "October 2026" },
       { date: "2026-11-16", period: "November 2026" },
-      { date: "2026-12-15", period: "December 2026" }
+      { date: "2026-12-15", period: "December 2026" },
     ]
   },
-  { name: "Philly Fed Mfg", short: "philly", source: "Philadelphia Fed", icon: "PFM",
+  {
+    name: "Philly Fed Mfg", short: "philly", source: "Philadelphia Fed", icon: "🔔",
     url: "https://www.philadelphiafed.org/surveys-and-data/regional-economic-analysis/manufacturing-business-outlook-survey",
     releases: [
       { date: "2026-05-21", period: "May 2026" },
@@ -363,10 +413,11 @@ var INDICATORS = [
       { date: "2026-09-17", period: "September 2026" },
       { date: "2026-10-15", period: "October 2026" },
       { date: "2026-11-19", period: "November 2026" },
-      { date: "2026-12-17", period: "December 2026" }
+      { date: "2026-12-17", period: "December 2026" },
     ]
   },
-  { name: "Business Inventories", short: "inventory", source: "Census Bureau", icon: "BI",
+  {
+    name: "Business Inventories", short: "inventory", source: "Census Bureau", icon: "📦",
     url: "https://www.census.gov/mtis/current/index.html",
     releases: [
       { date: "2026-05-14", period: "Mar 2026" },
@@ -376,10 +427,11 @@ var INDICATORS = [
       { date: "2026-09-16", period: "Jul 2026" },
       { date: "2026-10-15", period: "Aug 2026" },
       { date: "2026-11-17", period: "Sep 2026" },
-      { date: "2026-12-16", period: "Oct 2026" }
+      { date: "2026-12-16", period: "Oct 2026" },
     ]
   },
-  { name: "ISM Mfg PMI", short: "ism", source: "ISM", icon: "ISM",
+  {
+    name: "ISM Mfg PMI", short: "ism", source: "ISM", icon: "📉",
     url: "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/",
     releases: [
       { date: "2026-06-01", period: "May 2026" },
@@ -388,37 +440,74 @@ var INDICATORS = [
       { date: "2026-09-01", period: "Aug 2026" },
       { date: "2026-10-01", period: "Sep 2026" },
       { date: "2026-11-02", period: "Oct 2026" },
-      { date: "2026-12-01", period: "Nov 2026" }
+      { date: "2026-12-01", period: "Nov 2026" },
     ]
-  }
+  },
 ];
 
-var USED_RELEASES = {
-  ppi:           ["2026-05-14", "2026-06-11"],
-  inventory:     ["2026-05-14", "2026-06-17"],
-  retail:        ["2026-05-15", "2026-06-17"],
-  indprod:       ["2026-05-15", "2026-06-15"],
-  empire:        ["2026-05-11", "2026-06-15"],
-  conssentiment: ["2026-05-15"],
-  philly:        ["2026-05-21", "2026-06-18"],
-  housing:       ["2026-05-20", "2026-06-16"],
-  consconf:      ["2026-05-27"],
-  durable:       ["2026-05-27"],
-  gdp:           ["2026-05-28"],
-  pce:           ["2026-05-29"],
-  jobs:          ["2026-06-05"],
-  ism:           ["2026-06-01"],
-  cpi:           ["2026-06-10"]
+// Usage data derived from published Transportation Industry Trends posts
+// Last checked: July 10, 2026 — 8 posts analyzed
+// Source: transportationinsight.com/resources/?_sft_resource-types=transportation-industry-trends
+const USED_RELEASES = {
+  // "Transportation Industry Trends: May 18-22, 2026" (published May 20, 2026)
+  ppi:           ["2026-05-14", "2026-06-11"],  // PPI — April 2026; May 2026
+  inventory:     ["2026-05-14", "2026-06-17"],  // Business Inventories — March 2026; April 2026
+  retail:        ["2026-05-15", "2026-06-17"],  // Retail Sales — April 2026; May 2026
+  indprod:       ["2026-05-15", "2026-06-15"],  // Industrial Production — April 2026; May 2026
+
+  // "Transportation Industry Trends: May 25-29, 2026" (published May 27, 2026)
+  empire:        ["2026-05-11", "2026-06-15"],  // Empire State Mfg — May 2026; June 2026
+  conssentiment: ["2026-05-15", "2026-06-26"],  // Consumer Sentiment — May 2026 (Prelim); June 2026 (Final)
+  philly:        ["2026-05-21", "2026-06-18"],  // Philly Fed Mfg — May 2026; June 2026
+  housing:       ["2026-05-20", "2026-06-16"],  // New Residential Construction — April 2026; May 2026
+
+  // "Transportation Industry Trends: June 1-5, 2026" (published June 3, 2026)
+  consconf:      ["2026-05-27", "2026-06-30"],  // Consumer Confidence — May 2026; June 2026
+  durable:       ["2026-05-27", "2026-06-25"],  // Durable Goods Orders — April 2026; May 2026
+  gdp:           ["2026-05-28", "2026-06-25"],  // GDP — Q4 2025 (3rd est.); Q1 2026 (3rd est.)
+  pce:           ["2026-05-29", "2026-06-25"],  // PCE — April 2026; May 2026
+
+  // "Transportation Industry Trends: June 8-12, 2026" (published June 10, 2026)
+  jobs:          ["2026-06-05", "2026-07-02"],  // BLS Jobs Report — May 2026; June 2026
+  ism:           ["2026-06-01", "2026-07-01"],  // ISM Mfg PMI — May 2026; June 2026
+
+  // "Transportation Industry Trends: June 15-19, 2026" (published June 17, 2026)
+  cpi:           ["2026-06-10"],  // CPI — May 2026
+
+  // "Transportation Industry Trends: June 22-26, 2026" (published June 24, 2026)
+  // philly, retail, inventory, housing added above
+
+  // "Transportation Industry Trends: June 29–July 3, 2026" (published July 1, 2026)
+  // gdp: Q1 2026 (3rd est.) added above — released 2026-06-25
+  // durable: May 2026 added above — released 2026-06-25
+  // pce: May 2026 added above — released 2026-06-25
+  // conssentiment: June 2026 (Final) added above — released 2026-06-26
+
+  // "Transportation Industry Trends: July 6-10, 2026" (published July 8, 2026)
+  // jobs: June 2026 added above — released 2026-07-02
+  // ism: June 2026 added above — released 2026-07-01
+  // consconf: June 2026 added above — released 2026-06-30
 };
 
-var activeTab = 'available';
+// State
+let activeTab = 'available';
+
+// ── Helpers ─────────────────────────────────────────────────────
 
 function todayStr() {
   return new Date().toISOString().split('T')[0];
 }
 
+function weekStartOf(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const dow = d.getDay();
+  const shift = dow === 0 ? -6 : 1 - dow;
+  d.setDate(d.getDate() + shift);
+  return d.toISOString().split('T')[0];
+}
+
 function addDays(dateStr, n) {
-  var d = new Date(dateStr + 'T00:00:00');
+  const d = new Date(dateStr + 'T00:00:00');
   d.setDate(d.getDate() + n);
   return d.toISOString().split('T')[0];
 }
@@ -431,116 +520,134 @@ function fmtDate(dateStr) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+// ── Status Logic ─────────────────────────────────────────────────
+
 function getStatus(short, relDate) {
-  var t = todayStr();
+  const t = todayStr();
   if (relDate > t) return 'upcoming';
-  if (USED_RELEASES[short] && USED_RELEASES[short].indexOf(relDate) !== -1) return 'used';
+
+  // Check against published blog post data
+  if (USED_RELEASES[short] && USED_RELEASES[short].includes(relDate)) return 'used';
+
+  // Available if released within last 14 days
   if (daysFrom(relDate) >= -14) return 'available';
+
+  // Older release — skip
   return 'skip';
 }
 
+// ── Safe HTML setter (Trusted Types compatible) ──────────────────
+
+function safeSetHTML(el, html) {
+  if (window.trustedTypes && window.trustedTypes.createPolicy) {
+    try {
+      const policy = window.trustedTypes.createPolicy('macro-tracker', {
+        createHTML: (s) => s
+      });
+      el.innerHTML = policy.createHTML(html);
+      return;
+    } catch (e) {
+      // Policy already exists — fall through
+    }
+  }
+  el.innerHTML = html;
+}
+
+// ── Rendering ────────────────────────────────────────────────────
+
 function makeCard(ind, rel, status) {
-  var days = daysFrom(rel.date);
-  var cls = 'card ';
-  var badge = '';
+  const days = daysFrom(rel.date);
+  let cls = 'card ';
+  let badge = '';
 
   if (status === 'available') {
     cls += 'c-available';
-    badge = '<span class="badge b-available">' + (days === 0 ? 'Just Released' : 'Available') + '</span>';
+    badge = `<div class="badge b-available">${days === 0 ? 'Just Released' : 'Available'}</div>`;
   } else if (status === 'used') {
     cls += 'c-used';
-    badge = '<span class="badge b-used">Used</span>';
+    badge = '<div class="badge b-used">Used ✓</div>';
   } else if (status === 'upcoming') {
-    if (days <= 3) {
-      cls += 'c-soon';
-      badge = '<span class="badge b-soon">' + (days === 0 ? 'Today' : days + 'd away') + '</span>';
-    } else {
-      cls += 'c-upcoming';
-      badge = '<span class="badge b-upcoming">' + days + 'd</span>';
-    }
+    if (days <= 3) { cls += 'c-soon'; badge = `<div class="badge b-${days === 0 ? 'today' : 'soon'}">${days === 0 ? 'Today' : days + 'd away'}</div>`; }
+    else { cls += 'c-upcoming'; badge = `<div class="badge b-upcoming">${days}d</div>`; }
   }
 
-  var tag = ind.url ? 'a' : 'div';
-  var attrs = 'class="' + cls + '"';
-  if (ind.url) attrs += ' href="' + ind.url + '" target="_blank" rel="noopener noreferrer"';
-
-  return '<' + tag + ' ' + attrs + '>' +
-    '<div class="card-icon">' + ind.icon + '</div>' +
-    '<div class="card-info">' +
-      '<div class="card-name">' + ind.name + '</div>' +
-      '<div class="card-sub">' + ind.source + ' &middot; ' + rel.period + '</div>' +
-    '</div>' +
-    '<div class="card-right">' +
-      '<div class="card-date">' + fmtDate(rel.date) + '</div>' +
-      badge +
-    '</div>' +
-  '</' + tag + '>';
+  const tag = ind.url ? 'a' : 'div';
+  const href = ind.url ? ` href="${ind.url}" target="_blank" rel="noopener noreferrer"` : '';
+  return `<${tag}${href} class="${cls}">
+    <div class="card-icon">${ind.icon}</div>
+    <div class="card-info">
+      <div class="card-name">${ind.name}</div>
+      <div class="card-sub">${ind.source} · ${rel.period}</div>
+    </div>
+    <div class="card-right">
+      <div class="card-date">${fmtDate(rel.date)}</div>
+      ${badge}
+    </div>
+  </${tag}>`;
 }
 
 function buildList(tab) {
-  var t = todayStr();
-  var horizon = addDays(t, 35);
-  var lookback = addDays(t, -60);
-  var items = [];
+  const t = todayStr();
+  const horizon = addDays(t, 35);
+  const lookback = addDays(t, -60);
+  const items = [];
 
-  for (var i = 0; i < INDICATORS.length; i++) {
-    var ind = INDICATORS[i];
-    for (var j = 0; j < ind.releases.length; j++) {
-      var rel = ind.releases[j];
-      var st = getStatus(ind.short, rel.date);
+  for (const ind of INDICATORS) {
+    for (const rel of ind.releases) {
+      const st = getStatus(ind.short, rel.date);
       if (st === 'skip') continue;
-      if (tab === 'available' && st === 'available') items.push({ ind: ind, rel: rel, st: st });
-      if (tab === 'upcoming' && st === 'upcoming' && rel.date <= horizon) items.push({ ind: ind, rel: rel, st: st });
-      if (tab === 'used' && st === 'used' && rel.date >= lookback) items.push({ ind: ind, rel: rel, st: st });
+
+      if (tab === 'available' && st === 'available') items.push({ ind, rel, st });
+      if (tab === 'upcoming' && st === 'upcoming' && rel.date <= horizon) items.push({ ind, rel, st });
+      if (tab === 'used'     && st === 'used'     && rel.date >= lookback) items.push({ ind, rel, st });
     }
   }
 
-  items.sort(function(a, b) {
-    if (tab === 'used') return b.rel.date < a.rel.date ? -1 : 1;
-    return a.rel.date < b.rel.date ? -1 : 1;
-  });
+  if (tab === 'used') items.sort((a, b) => b.rel.date.localeCompare(a.rel.date));
+  else                items.sort((a, b) => a.rel.date.localeCompare(b.rel.date));
 
   return items;
 }
 
 function renderContent(tab) {
-  var items = buildList(tab);
+  const items = buildList(tab);
+
   if (items.length === 0) {
-    var msgs = {
+    const msgs = {
       available: 'No released-but-unused indicators in the last 14 days.',
       upcoming:  'No scheduled releases in the next 35 days.',
-      used:      'No indicators used in a blog post in the last 60 days.'
+      used:      'No indicators used in a blog post in the last 60 days.',
     };
-    return '<div class="empty">' + msgs[tab] + '</div>';
+    return `<div class="empty">${msgs[tab]}</div>`;
   }
 
   if (tab !== 'upcoming') {
-    return items.map(function(i) { return makeCard(i.ind, i.rel, i.st); }).join('');
+    return items.map(i => makeCard(i.ind, i.rel, i.st)).join('');
   }
 
-  var html = '';
-  var lastGrp = null;
-  for (var i = 0; i < items.length; i++) {
-    var d = daysFrom(items[i].rel.date);
-    var grp = d <= 0 ? 'Today' : d <= 7 ? 'This Week' : d <= 14 ? 'Next Week' : d <= 21 ? 'In 2 Weeks' : 'In 3-5 Weeks';
-    if (grp !== lastGrp) { html += '<div class="week-label">' + grp + '</div>'; lastGrp = grp; }
-    html += makeCard(items[i].ind, items[i].rel, items[i].st);
+  // Group upcoming by time horizon
+  let html = '';
+  let lastGrp = null;
+  for (const item of items) {
+    const d = daysFrom(item.rel.date);
+    const grp = d <= 0 ? 'Today' : d <= 7 ? 'This Week' : d <= 14 ? 'Next Week' : d <= 21 ? 'In 2 Weeks' : 'In 3–5 Weeks';
+    if (grp !== lastGrp) { html += `<div class="week-label">${grp}</div>`; lastGrp = grp; }
+    html += makeCard(item.ind, item.rel, item.st);
   }
   return html;
 }
 
 function updateCounts() {
-  var t = todayStr();
-  var horizon  = addDays(t, 35);
-  var lookback = addDays(t, -60);
-  var av = 0, up = 0, us = 0;
-  for (var i = 0; i < INDICATORS.length; i++) {
-    var ind = INDICATORS[i];
-    for (var j = 0; j < ind.releases.length; j++) {
-      var st = getStatus(ind.short, ind.releases[j].date);
+  const t = todayStr();
+  const horizon  = addDays(t, 35);
+  const lookback = addDays(t, -60);
+  let av = 0, up = 0, us = 0;
+  for (const ind of INDICATORS) {
+    for (const rel of ind.releases) {
+      const st = getStatus(ind.short, rel.date);
       if (st === 'available') av++;
-      if (st === 'upcoming' && ind.releases[j].date <= horizon) up++;
-      if (st === 'used' && ind.releases[j].date >= lookback) us++;
+      if (st === 'upcoming' && rel.date <= horizon) up++;
+      if (st === 'used' && rel.date >= lookback) us++;
     }
   }
   document.getElementById('cnt-available').textContent = av;
@@ -551,24 +658,32 @@ function updateCounts() {
 function render() {
   document.getElementById('tabs-el').style.display = 'flex';
   updateCounts();
-  var tabs = ['available', 'upcoming', 'used'];
-  for (var i = 0; i < tabs.length; i++) {
-    var el = document.getElementById('tab-' + tabs[i]);
-    if (tabs[i] === activeTab) el.classList.add('active');
-    else el.classList.remove('active');
-  }
-  document.getElementById('content').innerHTML = renderContent(activeTab);
+  ['available','upcoming','used'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === activeTab);
+  });
+  safeSetHTML(document.getElementById('content'), renderContent(activeTab));
 }
 
 function setTab(t) { activeTab = t; render(); }
 
-function init() { activeTab = 'available'; render(); }
+// ── Init ─────────────────────────────────────────────────────────
 
-document.getElementById('refresh-btn').addEventListener('click', init);
-document.querySelectorAll('.tab[data-tab]').forEach(function(el) {
-  el.addEventListener('click', function() { setTab(el.getAttribute('data-tab')); });
+function init() {
+  activeTab = 'available';
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Wire up refresh button
+  document.getElementById('refresh-btn').addEventListener('click', init);
+
+  // Wire up tabs
+  document.querySelectorAll('.tab[data-tab]').forEach(function(el) {
+    el.addEventListener('click', function() { setTab(el.getAttribute('data-tab')); });
+  });
+
+  init();
 });
-init();
 </script>
 </body>
 </html>
