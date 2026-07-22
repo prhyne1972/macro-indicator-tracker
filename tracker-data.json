@@ -1,0 +1,32 @@
+{
+  "last_checked": "2026-07-22",
+  "posts_analyzed": [
+    "Transportation Industry Trends: May 18-22, 2026",
+    "Transportation Industry Trends: May 25-29, 2026",
+    "Transportation Industry Trends: June 1-5, 2026",
+    "Transportation Industry Trends: June 8-12, 2026",
+    "Transportation Industry Trends: June 15-19, 2026",
+    "Transportation Industry Trends: June 22-26, 2026",
+    "Transportation Industry Trends: June 29–July 3, 2026",
+    "Transportation Industry Trends: July 6-10, 2026",
+    "Transportation Industry Trends: July 13-17, 2026",
+    "Transportation Industry Trends: July 20-24, 2026"
+  ],
+  "used_releases": {
+    "ppi":           ["2026-05-14", "2026-06-11", "2026-07-15"],
+    "inventory":     ["2026-05-14", "2026-06-17"],
+    "retail":        ["2026-05-15", "2026-06-17", "2026-07-16"],
+    "indprod":       ["2026-05-15", "2026-06-15", "2026-07-17"],
+    "empire":        ["2026-05-11", "2026-06-15", "2026-07-15"],
+    "conssentiment": ["2026-05-15", "2026-06-26"],
+    "philly":        ["2026-05-21", "2026-06-18", "2026-07-16"],
+    "housing":       ["2026-05-20", "2026-06-16"],
+    "consconf":      ["2026-05-27", "2026-06-30"],
+    "durable":       ["2026-05-27", "2026-06-25"],
+    "gdp":           ["2026-05-28", "2026-06-25"],
+    "pce":           ["2026-05-29", "2026-06-25"],
+    "jobs":          ["2026-06-05", "2026-07-02"],
+    "ism":           ["2026-06-01", "2026-07-01"],
+    "cpi":           ["2026-06-10", "2026-07-14"]
+  }
+}
