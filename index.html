@@ -227,7 +227,7 @@
 <div class="footer">
   BLS · BEA · Census Bureau · Federal Reserve · Conference Board · U-Mich · ISM · NY Fed · Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Jul 10, 2026</strong> (8 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Jul 22, 2026</strong> (10 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 
 <script>
@@ -446,19 +446,19 @@ const INDICATORS = [
 ];
 
 // Usage data derived from published Transportation Industry Trends posts
-// Last checked: July 10, 2026 — 8 posts analyzed
+// Last checked: July 22, 2026 — 10 posts analyzed
 // Source: transportationinsight.com/resources/?_sft_resource-types=transportation-industry-trends
 const USED_RELEASES = {
   // "Transportation Industry Trends: May 18-22, 2026" (published May 20, 2026)
-  ppi:           ["2026-05-14", "2026-06-11"],  // PPI — April 2026; May 2026
+  ppi:           ["2026-05-14", "2026-06-11", "2026-07-15"],  // PPI — April 2026; May 2026; June 2026
   inventory:     ["2026-05-14", "2026-06-17"],  // Business Inventories — March 2026; April 2026
-  retail:        ["2026-05-15", "2026-06-17"],  // Retail Sales — April 2026; May 2026
-  indprod:       ["2026-05-15", "2026-06-15"],  // Industrial Production — April 2026; May 2026
+  retail:        ["2026-05-15", "2026-06-17", "2026-07-16"],  // Retail Sales — April 2026; May 2026; June 2026
+  indprod:       ["2026-05-15", "2026-06-15", "2026-07-17"],  // Industrial Production — April 2026; May 2026; June 2026
 
   // "Transportation Industry Trends: May 25-29, 2026" (published May 27, 2026)
-  empire:        ["2026-05-11", "2026-06-15"],  // Empire State Mfg — May 2026; June 2026
+  empire:        ["2026-05-11", "2026-06-15", "2026-07-15"],  // Empire State Mfg — May 2026; June 2026; July 2026
   conssentiment: ["2026-05-15", "2026-06-26"],  // Consumer Sentiment — May 2026 (Prelim); June 2026 (Final)
-  philly:        ["2026-05-21", "2026-06-18"],  // Philly Fed Mfg — May 2026; June 2026
+  philly:        ["2026-05-21", "2026-06-18", "2026-07-16"],  // Philly Fed Mfg — May 2026; June 2026; July 2026
   housing:       ["2026-05-20", "2026-06-16"],  // New Residential Construction — April 2026; May 2026
 
   // "Transportation Industry Trends: June 1-5, 2026" (published June 3, 2026)
@@ -472,7 +472,7 @@ const USED_RELEASES = {
   ism:           ["2026-06-01", "2026-07-01"],  // ISM Mfg PMI — May 2026; June 2026
 
   // "Transportation Industry Trends: June 15-19, 2026" (published June 17, 2026)
-  cpi:           ["2026-06-10"],  // CPI — May 2026
+  cpi:           ["2026-06-10", "2026-07-14"],  // CPI — May 2026; June 2026
 
   // "Transportation Industry Trends: June 22-26, 2026" (published June 24, 2026)
   // philly, retail, inventory, housing added above
@@ -487,6 +487,16 @@ const USED_RELEASES = {
   // jobs: June 2026 added above — released 2026-07-02
   // ism: June 2026 added above — released 2026-07-01
   // consconf: June 2026 added above — released 2026-06-30
+
+  // "Transportation Industry Trends: July 13-17, 2026" (published July 15, 2026)
+  // cpi: June 2026 added above — released 2026-07-14
+  // ppi: June 2026 added above — released 2026-07-15
+  // empire: July 2026 added above — released 2026-07-15
+
+  // "Transportation Industry Trends: July 20-24, 2026" (published July 22, 2026)
+  // retail: June 2026 added above — released 2026-07-16
+  // philly: July 2026 added above — released 2026-07-16
+  // indprod: June 2026 added above — released 2026-07-17
 };
 
 // State
