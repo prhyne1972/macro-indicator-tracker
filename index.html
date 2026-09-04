@@ -95,7 +95,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Sep 2, 2026</strong> (16 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Sep 4, 2026</strong> (16 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -116,8 +116,8 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Sep 2, 2026 — 16 posts analyzed
-// NOTE: Aug 31–Sep 4, 2026 post was found but URL was provenance-blocked; indicators for that post not identified.
+// Usage data — Last checked: Sep 4, 2026 — 16 posts analyzed
+// Aug 31–Sep 4 post: Durable Goods Jul 2026 (2026-08-26), PCE Jul 2026 (2026-08-26), ISM Mfg PMI Aug 2026 (2026-09-01)
 const USED_RELEASES = {
   ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13"],
   inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14"],
@@ -128,11 +128,11 @@ const USED_RELEASES = {
   philly:        ["2026-05-21","2026-06-18","2026-07-16","2026-08-20"],
   housing:       ["2026-05-20","2026-06-16","2026-07-17"],
   consconf:      ["2026-05-27","2026-06-30","2026-07-28"],
-  durable:       ["2026-05-27","2026-06-25","2026-07-27"],
+  durable:       ["2026-05-27","2026-06-25","2026-07-27","2026-08-26"],
   gdp:           ["2026-05-28","2026-06-25","2026-07-30"],
-  pce:           ["2026-05-29","2026-06-25","2026-07-30"],
+  pce:           ["2026-05-29","2026-06-25","2026-07-30","2026-08-26"],
   jobs:          ["2026-06-05","2026-07-02","2026-08-07"],
-  ism:           ["2026-06-01","2026-07-01","2026-08-03"],
+  ism:           ["2026-06-01","2026-07-01","2026-08-03","2026-09-01"],
   cpi:           ["2026-06-10","2026-07-14","2026-08-12"],
 };
 
