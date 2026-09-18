@@ -48,7 +48,9 @@
     .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 52px 24px; color: #64748b; font-size: 13px; }
     .spinner { width: 26px; height: 26px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .load-step { font-size: 11px; color: #94a3b8; margin-top: 5px; }
     .empty { text-align: center; padding: 32px 16px; color: #94a3b8; font-size: 13px; line-height: 1.6; }
+    .warn-banner { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 9px 13px; margin-bottom: 12px; font-size: 11px; color: #9a3412; line-height: 1.5; }
     .footer { padding: 10px 14px 14px; font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.6; }
   </style>
 </head>
@@ -85,7 +87,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Sep 10, 2026</strong> (17 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Sep 16, 2026</strong> (18 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -106,14 +108,14 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Sep 10, 2026 — 17 posts analyzed
-// Sep 8–11 post: Consumer Sentiment Aug 2026 Final (2026-08-28), Jobs Aug 2026 (2026-09-04), GDP Q2 2026 2nd est. (2026-08-26)
+// Usage data — Last checked: Sep 16, 2026 — 18 posts analyzed
+// Sep 14-18 post: PPI Aug 2026 (2026-09-10), CPI Aug 2026 (2026-09-11), Empire Sep 2026 (2026-09-15)
 const USED_RELEASES = {
-  ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13"],
+  ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13","2026-09-10"],
   inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14"],
   retail:        ["2026-05-15","2026-06-17","2026-07-16","2026-08-14"],
   indprod:       ["2026-05-15","2026-06-15","2026-07-17","2026-08-18"],
-  empire:        ["2026-05-11","2026-06-15","2026-07-15","2026-08-17"],
+  empire:        ["2026-05-11","2026-06-15","2026-07-15","2026-08-17","2026-09-15"],
   conssentiment: ["2026-05-15","2026-06-26","2026-07-24","2026-08-28"],
   philly:        ["2026-05-21","2026-06-18","2026-07-16","2026-08-20"],
   housing:       ["2026-05-20","2026-06-16","2026-07-17"],
@@ -123,7 +125,7 @@ const USED_RELEASES = {
   pce:           ["2026-05-29","2026-06-25","2026-07-30","2026-08-26"],
   jobs:          ["2026-06-05","2026-07-02","2026-08-07","2026-09-04"],
   ism:           ["2026-06-01","2026-07-01","2026-08-03","2026-09-01"],
-  cpi:           ["2026-06-10","2026-07-14","2026-08-12"],
+  cpi:           ["2026-06-10","2026-07-14","2026-08-12","2026-09-11"],
 };
 
 let activeTab = 'available';
@@ -150,15 +152,15 @@ function safeSetHTML(el,html){
 function makeCard(ind,rel,status){
   const days=daysFrom(rel.date);
   let cls='card ', badge='';
-  if(status==='available'){ cls+='c-available'; badge='<div class="badge b-available">'+(days===0?'Just Released':'Available')+'</div>'; }
+  if(status==='available'){ cls+='c-available'; badge=`<div class="badge b-available">${days===0?'Just Released':'Available'}</div>`; }
   else if(status==='used'){ cls+='c-used'; badge='<div class="badge b-used">Used &#x2713;</div>'; }
   else if(status==='upcoming'){
-    if(days<=3){ cls+='c-soon'; badge='<div class="badge b-'+(days===0?'today':'soon')+'">'+(days===0?'Today':days+'d away')+'</div>'; }
-    else{ cls+='c-upcoming'; badge='<div class="badge b-upcoming">'+days+'d</div>'; }
+    if(days<=3){ cls+='c-soon'; badge=`<div class="badge b-${days===0?'today':'soon'}">${days===0?'Today':days+'d away'}</div>`; }
+    else{ cls+='c-upcoming'; badge=`<div class="badge b-upcoming">${days}d</div>`; }
   }
   const tag=ind.url?'a':'div';
-  const href=ind.url?' href="'+ind.url+'" target="_blank" rel="noopener noreferrer"':'';
-  return '<'+tag+href+' class="'+cls+'"><div class="card-icon">'+ind.icon+'</div><div class="card-info"><div class="card-name">'+ind.name+'</div><div class="card-sub">'+ind.source+' &middot; '+rel.period+'</div></div><div class="card-right"><div class="card-date">'+fmtDate(rel.date)+'</div>'+badge+'</div></'+tag+'>';
+  const href=ind.url?` href="${ind.url}" target="_blank" rel="noopener noreferrer"`:'';
+  return `<${tag}${href} class="${cls}"><div class="card-icon">${ind.icon}</div><div class="card-info"><div class="card-name">${ind.name}</div><div class="card-sub">${ind.source} &middot; ${rel.period}</div></div><div class="card-right"><div class="card-date">${fmtDate(rel.date)}</div>${badge}</div></${tag}>`;
 }
 
 function buildList(tab){
@@ -172,8 +174,8 @@ function buildList(tab){
       if(tab==='used'&&st==='used'&&rel.date>=lookback) items.push({ind,rel,st});
     }
   }
-  if(tab==='used') items.sort(function(a,b){ return b.rel.date.localeCompare(a.rel.date); });
-  else items.sort(function(a,b){ return a.rel.date.localeCompare(b.rel.date); });
+  if(tab==='used') items.sort((a,b)=>b.rel.date.localeCompare(a.rel.date));
+  else items.sort((a,b)=>a.rel.date.localeCompare(b.rel.date));
   return items;
 }
 
@@ -181,15 +183,14 @@ function renderContent(tab){
   const items=buildList(tab);
   if(items.length===0){
     const msgs={available:'No released-but-unused indicators in the last 14 days.',upcoming:'No scheduled releases in the next 35 days.',used:'No indicators used in a blog post in the last 60 days.'};
-    return '<div class="empty">'+msgs[tab]+'</div>';
+    return `<div class="empty">${msgs[tab]}</div>`;
   }
-  if(tab!=='upcoming') return items.map(function(i){ return makeCard(i.ind,i.rel,i.st); }).join('');
-  var html='',lastGrp=null;
-  for(var i=0;i<items.length;i++){
-    const item=items[i];
+  if(tab!=='upcoming') return items.map(i=>makeCard(i.ind,i.rel,i.st)).join('');
+  let html='',lastGrp=null;
+  for(const item of items){
     const d=daysFrom(item.rel.date);
     const grp=d<=0?'Today':d<=7?'This Week':d<=14?'Next Week':d<=21?'In 2 Weeks':'In 3-5 Weeks';
-    if(grp!==lastGrp){ html+='<div class="week-label">'+grp+'</div>'; lastGrp=grp; }
+    if(grp!==lastGrp){ html+=`<div class="week-label">${grp}</div>`; lastGrp=grp; }
     html+=makeCard(item.ind,item.rel,item.st);
   }
   return html;
@@ -197,11 +198,9 @@ function renderContent(tab){
 
 function updateCounts(){
   const t=todayStr(), horizon=addDays(t,35), lookback=addDays(t,-60);
-  var av=0,up=0,us=0;
-  for(var i=0;i<INDICATORS.length;i++){
-    const ind=INDICATORS[i];
-    for(var j=0;j<ind.releases.length;j++){
-      const rel=ind.releases[j];
+  let av=0,up=0,us=0;
+  for(const ind of INDICATORS){
+    for(const rel of ind.releases){
       const st=getStatus(ind.short,rel.date);
       if(st==='available') av++;
       if(st==='upcoming'&&rel.date<=horizon) up++;
@@ -216,10 +215,7 @@ function updateCounts(){
 function render(){
   document.getElementById('tabs-el').style.display='flex';
   updateCounts();
-  var tabs=['available','upcoming','used'];
-  for(var i=0;i<tabs.length;i++){
-    document.getElementById('tab-'+tabs[i]).classList.toggle('active',tabs[i]===activeTab);
-  }
+  ['available','upcoming','used'].forEach(t=>{ document.getElementById('tab-'+t).classList.toggle('active',t===activeTab); });
   safeSetHTML(document.getElementById('content'),renderContent(activeTab));
 }
 
@@ -228,10 +224,7 @@ function init(){ activeTab='available'; render(); }
 
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('refresh-btn').addEventListener('click',init);
-  var tabEls=document.querySelectorAll('.tab[data-tab]');
-  for(var i=0;i<tabEls.length;i++){
-    (function(el){ el.addEventListener('click',function(){ setTab(el.getAttribute('data-tab')); }); })(tabEls[i]);
-  }
+  document.querySelectorAll('.tab[data-tab]').forEach(function(el){ el.addEventListener('click',function(){ setTab(el.getAttribute('data-tab')); }); });
   init();
 });
 </script>
