@@ -87,7 +87,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Sep 16, 2026</strong> (18 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Sep 24, 2026</strong> (19 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -108,17 +108,17 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Sep 16, 2026 — 18 posts analyzed
-// Sep 14-18 post: PPI Aug 2026 (2026-09-10), CPI Aug 2026 (2026-09-11), Empire Sep 2026 (2026-09-15)
+// Usage data — Last checked: Sep 24, 2026 — 19 posts analyzed
+// Sep 21-25 post: Retail Aug 2026 (2026-09-16), Inventory Jul 2026 (2026-09-16), Housing Aug 2026 (2026-09-17), IndProd Aug 2026 (2026-09-18)
 const USED_RELEASES = {
   ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13","2026-09-10"],
-  inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14"],
-  retail:        ["2026-05-15","2026-06-17","2026-07-16","2026-08-14"],
-  indprod:       ["2026-05-15","2026-06-15","2026-07-17","2026-08-18"],
+  inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14","2026-09-16"],
+  retail:        ["2026-05-15","2026-06-17","2026-07-16","2026-08-14","2026-09-16"],
+  indprod:       ["2026-05-15","2026-06-15","2026-07-17","2026-08-18","2026-09-18"],
   empire:        ["2026-05-11","2026-06-15","2026-07-15","2026-08-17","2026-09-15"],
   conssentiment: ["2026-05-15","2026-06-26","2026-07-24","2026-08-28"],
   philly:        ["2026-05-21","2026-06-18","2026-07-16","2026-08-20"],
-  housing:       ["2026-05-20","2026-06-16","2026-07-17"],
+  housing:       ["2026-05-20","2026-06-16","2026-07-17","2026-09-17"],
   consconf:      ["2026-05-27","2026-06-30","2026-07-28"],
   durable:       ["2026-05-27","2026-06-25","2026-07-27","2026-08-26"],
   gdp:           ["2026-05-28","2026-06-25","2026-07-30","2026-08-26"],
