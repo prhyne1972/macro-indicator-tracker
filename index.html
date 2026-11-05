@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Macro Indicator Tracker",
+  "schemaVersion": 1,
+  "description": "Macro indicator tracker for the Weekly Insights Blog. Reads Macro Calendar.xlsx from OneDrive to show which released indicators are available to use vs. already used, plus a 35-day upcoming release calendar. Official 2026 release dates embedded from BLS, BEA, Census, Federal Reserve, Conference Board, U-Mich, ISM, NY Fed, and Philly Fed.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -87,7 +96,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Oct 30, 2026</strong> (24 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Nov 4, 2026</strong> (25 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -108,7 +117,8 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Oct 30, 2026 — 24 posts analyzed
+// Usage data — Last checked: Nov 4, 2026 — 25 posts analyzed
+// Nov 2-6 post: Durable Goods Sep 2026 (2026-10-27), GDP Q3 2026 Advance (2026-10-29), PCE Sep 2026 (2026-10-29)
 // Oct 26-30 post: Consumer Sentiment Oct 2026 Final (2026-10-23), Housing Sep 2026 (2026-10-20), IndProd Sep 2026 (2026-10-16), Empire State Oct 2026 (2026-10-15)
 // Oct 19-23 post: CPI Sep 2026 (2026-10-14), PPI Sep 2026 (2026-10-15), Retail Sales Sep 2026 (2026-10-15), Business Inventories Aug 2026 (2026-10-15)
 const USED_RELEASES = {
@@ -121,9 +131,9 @@ const USED_RELEASES = {
   philly:        ["2026-05-21","2026-06-18","2026-07-16","2026-08-20","2026-09-17"],
   housing:       ["2026-05-20","2026-06-16","2026-07-17","2026-09-17","2026-10-20"],
   consconf:      ["2026-05-27","2026-06-30","2026-07-28","2026-09-29"],
-  durable:       ["2026-05-27","2026-06-25","2026-07-27","2026-08-26","2026-09-25"],
-  gdp:           ["2026-05-28","2026-06-25","2026-07-30","2026-08-26","2026-09-30"],
-  pce:           ["2026-05-29","2026-06-25","2026-07-30","2026-08-26"],
+  durable:       ["2026-05-27","2026-06-25","2026-07-27","2026-08-26","2026-09-25","2026-10-27"],
+  gdp:           ["2026-05-28","2026-06-25","2026-07-30","2026-08-26","2026-09-30","2026-10-29"],
+  pce:           ["2026-05-29","2026-06-25","2026-07-30","2026-08-26","2026-10-29"],
   jobs:          ["2026-06-05","2026-07-02","2026-08-07","2026-09-04","2026-10-02"],
   ism:           ["2026-06-01","2026-07-01","2026-08-03","2026-09-01","2026-10-01"],
   cpi:           ["2026-06-10","2026-07-14","2026-08-12","2026-09-11","2026-10-14"],
