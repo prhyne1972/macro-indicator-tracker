@@ -1,13 +1,4 @@
 <!DOCTYPE html>
-<script type="application/json" id="cowork-artifact-meta">
-{
-  "name": "Macro Indicator Tracker",
-  "schemaVersion": 1,
-  "description": "Macro indicator tracker for the Weekly Insights Blog. Reads Macro Calendar.xlsx from OneDrive to show which released indicators are available to use vs. already used, plus a 35-day upcoming release calendar. Official 2026 release dates embedded from BLS, BEA, Census, Federal Reserve, Conference Board, U-Mich, ISM, NY Fed, and Philly Fed.",
-  "mcpTools": [],
-  "mcpServerNames": []
-}
-</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -57,9 +48,7 @@
     .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 52px 24px; color: #64748b; font-size: 13px; }
     .spinner { width: 26px; height: 26px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .load-step { font-size: 11px; color: #94a3b8; margin-top: 5px; }
     .empty { text-align: center; padding: 32px 16px; color: #94a3b8; font-size: 13px; line-height: 1.6; }
-    .warn-banner { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 9px 13px; margin-bottom: 12px; font-size: 11px; color: #9a3412; line-height: 1.5; }
     .footer { padding: 10px 14px 14px; font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.6; }
   </style>
 </head>
@@ -96,7 +85,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Nov 4, 2026</strong> (25 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Nov 6, 2026</strong> (25 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -117,10 +106,8 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Nov 4, 2026 — 25 posts analyzed
-// Nov 2-6 post: Durable Goods Sep 2026 (2026-10-27), GDP Q3 2026 Advance (2026-10-29), PCE Sep 2026 (2026-10-29)
-// Oct 26-30 post: Consumer Sentiment Oct 2026 Final (2026-10-23), Housing Sep 2026 (2026-10-20), IndProd Sep 2026 (2026-10-16), Empire State Oct 2026 (2026-10-15)
-// Oct 19-23 post: CPI Sep 2026 (2026-10-14), PPI Sep 2026 (2026-10-15), Retail Sales Sep 2026 (2026-10-15), Business Inventories Aug 2026 (2026-10-15)
+// Usage data — Last checked: Nov 6, 2026 — 25 posts analyzed
+// Nov 2-6 post: Durable Goods Sep 2026 (2026-10-27), GDP Q3 Advance (2026-10-29), PCE Sep 2026 (2026-10-29)
 const USED_RELEASES = {
   ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13","2026-09-10","2026-10-15"],
   inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14","2026-09-16","2026-10-15"],
