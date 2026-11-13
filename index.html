@@ -1,13 +1,4 @@
 <!DOCTYPE html>
-<script type="application/json" id="cowork-artifact-meta">
-{
-  "name": "Macro Indicator Tracker",
-  "schemaVersion": 1,
-  "description": "Macro indicator tracker for the Weekly Insights Blog. Reads Macro Calendar.xlsx from OneDrive to show which released indicators are available to use vs. already used, plus a 35-day upcoming release calendar. Official 2026 release dates embedded from BLS, BEA, Census, Federal Reserve, Conference Board, U-Mich, ISM, NY Fed, and Philly Fed.",
-  "mcpTools": [],
-  "mcpServerNames": []
-}
-</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -94,7 +85,7 @@
 <div class="footer">
   BLS &middot; BEA &middot; Census Bureau &middot; Federal Reserve &middot; Conference Board &middot; U-Mich &middot; ISM &middot; NY Fed &middot; Philly Fed<br>
   Usage status derived from published <em>Transportation Industry Trends</em> posts on transportationinsight.com.<br>
-  Last checked: <strong>Nov 11, 2026</strong> (26 posts analyzed). Ask Claude to refresh when new posts are published.
+  Last checked: <strong>Nov 13, 2026</strong> (26 posts analyzed). Ask Claude to refresh when new posts are published.
 </div>
 <script>
 const INDICATORS = [
@@ -102,7 +93,7 @@ const INDICATORS = [
   { name:"CPI", short:"cpi", source:"BLS", icon:"&#x1F6D2;", url:"https://www.bls.gov/news.release/cpi.nr0.htm", releases:[{date:"2026-06-10",period:"May 2026"},{date:"2026-07-14",period:"Jun 2026"},{date:"2026-08-12",period:"Jul 2026"},{date:"2026-09-11",period:"Aug 2026"},{date:"2026-10-14",period:"Sep 2026"},{date:"2026-11-10",period:"Oct 2026"},{date:"2026-12-10",period:"Nov 2026"}]},
   { name:"PPI", short:"ppi", source:"BLS", icon:"&#x1F3ED;", url:"https://www.bls.gov/news.release/ppi.nr0.htm", releases:[{date:"2026-05-14",period:"Apr 2026"},{date:"2026-06-11",period:"May 2026"},{date:"2026-07-15",period:"Jun 2026"},{date:"2026-08-13",period:"Jul 2026"},{date:"2026-09-10",period:"Aug 2026"},{date:"2026-10-15",period:"Sep 2026"},{date:"2026-11-13",period:"Oct 2026"},{date:"2026-12-15",period:"Nov 2026"}]},
   { name:"Consumer Confidence", short:"consconf", source:"Conference Board", icon:"&#x1F60A;", url:"https://www.conference-board.org/topics/consumer-confidence", releases:[{date:"2026-05-27",period:"May 2026"},{date:"2026-06-30",period:"June 2026"},{date:"2026-07-28",period:"July 2026"},{date:"2026-08-25",period:"August 2026"},{date:"2026-09-29",period:"September 2026"},{date:"2026-10-27",period:"October 2026"},{date:"2026-11-24",period:"November 2026"},{date:"2026-12-29",period:"December 2026"}]},
-  { name:"Consumer Sentiment", short:"conssentiment", source:"U-Mich", icon:"&#x1F4C8;", url:"https://www.sca.isr.umich.edu/", releases:[{date:"2026-05-15",period:"May 2026 (Prelim)"},{date:"2026-06-26",period:"June 2026 (Final)"},{date:"2026-07-24",period:"July 2026 (Final)"},{date:"2026-08-28",period:"August 2026 (Final)"},{date:"2026-09-25",period:"September 2026 (Final)"},{date:"2026-10-09",period:"October 2026 (Prelim)"},{date:"2026-10-23",period:"October 2026 (Final)"},{date:"2026-11-20",period:"November 2026 (Final)"},{date:"2026-12-18",period:"December 2026 (Final)"}]},
+  { name:"Consumer Sentiment", short:"conssentiment", source:"U-Mich", icon:"&#x1F4C8;", url:"https://www.sca.isr.umich.edu/", releases:[{date:"2026-05-15",period:"May 2026 (Prelim)"},{date:"2026-06-26",period:"June 2026 (Final)"},{date:"2026-07-24",period:"July 2026 (Final)"},{date:"2026-08-28",period:"August 2026 (Final)"},{date:"2026-09-25",period:"September 2026 (Final)"},{date:"2026-10-09",period:"October 2026 (Prelim)"},{date:"2026-10-23",period:"October 2026 (Final)"},{date:"2026-11-14",period:"November 2026 (Prelim)"},{date:"2026-11-20",period:"November 2026 (Final)"},{date:"2026-12-18",period:"December 2026 (Final)"}]},
   { name:"Retail Sales", short:"retail", source:"Census Bureau", icon:"&#x1F3EA;", url:"https://www.census.gov/retail/sales.html", releases:[{date:"2026-05-15",period:"Apr 2026"},{date:"2026-06-17",period:"May 2026"},{date:"2026-07-16",period:"Jun 2026"},{date:"2026-08-14",period:"Jul 2026"},{date:"2026-09-16",period:"Aug 2026"},{date:"2026-10-15",period:"Sep 2026"},{date:"2026-11-17",period:"Oct 2026"},{date:"2026-12-16",period:"Nov 2026"}]},
   { name:"Industrial Production", short:"indprod", source:"Federal Reserve", icon:"&#x2699;&#xFE0F;", url:"https://www.federalreserve.gov/releases/g17/current/default.htm", releases:[{date:"2026-05-15",period:"Apr 2026"},{date:"2026-06-15",period:"May 2026"},{date:"2026-07-17",period:"Jun 2026"},{date:"2026-08-18",period:"Jul 2026"},{date:"2026-09-18",period:"Aug 2026"},{date:"2026-10-16",period:"Sep 2026"},{date:"2026-11-17",period:"Oct 2026"},{date:"2026-12-16",period:"Nov 2026"}]},
   { name:"New Housing Construction", short:"housing", source:"Census Bureau", icon:"&#x1F3E0;", url:"https://www.census.gov/construction/nrc/current/index.html", releases:[{date:"2026-05-20",period:"Apr 2026"},{date:"2026-06-16",period:"May 2026"},{date:"2026-07-17",period:"Jun 2026"},{date:"2026-08-18",period:"Jul 2026"},{date:"2026-09-17",period:"Aug 2026"},{date:"2026-10-20",period:"Sep 2026"},{date:"2026-11-18",period:"Oct 2026"},{date:"2026-12-17",period:"Nov 2026"}]},
@@ -115,9 +106,8 @@ const INDICATORS = [
   { name:"ISM Mfg PMI", short:"ism", source:"ISM", icon:"&#x1F4C9;", url:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/pmi/", releases:[{date:"2026-06-01",period:"May 2026"},{date:"2026-07-01",period:"Jun 2026"},{date:"2026-08-03",period:"Jul 2026"},{date:"2026-09-01",period:"Aug 2026"},{date:"2026-10-01",period:"Sep 2026"},{date:"2026-11-02",period:"Oct 2026"},{date:"2026-12-01",period:"Nov 2026"}]},
 ];
 
-// Usage data — Last checked: Nov 11, 2026 — 26 posts analyzed
-// Nov 9-13 post: Jobs Oct 2026 (2026-11-06), ISM Oct 2026 (2026-11-02), CPI Oct 2026 (2026-11-10)
-// Nov 2-6 post: Durable Goods Sep 2026 (2026-10-27), GDP Q3 Advance (2026-10-29), PCE Sep 2026 (2026-10-29)
+// Usage data — Last checked: Nov 13, 2026 — 26 posts analyzed
+// Nov 9-13 post: ISM Oct 2026 (2026-11-02), Jobs Oct 2026 (2026-11-06), CPI Oct 2026 (2026-11-10)
 const USED_RELEASES = {
   ppi:           ["2026-05-14","2026-06-11","2026-07-15","2026-08-13","2026-09-10","2026-10-15"],
   inventory:     ["2026-05-14","2026-06-17","2026-07-16","2026-08-14","2026-09-16","2026-10-15"],
